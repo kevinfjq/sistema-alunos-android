@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Adicionar">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAdicionar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        app:title="Sistema Acadêmico"
+        tools:layout_editor_absoluteX="5dp" />
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/toolbarAdicionar"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <EditText
+            android:id="@+id/edtNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:hint="Nome"
+            android:inputType="text"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/edtCpf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:hint="Cpf"
+            android:inputType="number"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/edtTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:hint="Telefone"
+            android:inputType="phone"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="28dp" />
+
+        <Button
+            android:id="@+id/btnAdicionar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="adicionarAluno"
+            android:text="Adicionar" />
+
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="voltar"
+            android:text="Voltar" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

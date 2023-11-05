@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itemAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Adicionar aluno" />
+    <item
+        android:id="@+id/itemOrdernarNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Ordenar por nome" />
+    <item
+        android:id="@+id/itemOrdenarData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Ordenar por data" />
+</menu>
