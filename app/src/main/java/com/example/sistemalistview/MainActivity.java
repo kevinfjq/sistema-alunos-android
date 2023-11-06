@@ -29,6 +29,7 @@ import com.example.sistemalistview.model.Aluno;
 import com.example.sistemalistview.util.CustomAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         layoutEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Edit", Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(MainActivity.this, Update.class);
+                it.putExtra("p_id", aluno.getId());
+                startActivity(it);
+                finish();
             }
         });
 
@@ -104,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        return;
                     }
                 });
                 AlertDialog alert = builder.create();
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        Objects.requireNonNull(dialog.getWindow()).setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);

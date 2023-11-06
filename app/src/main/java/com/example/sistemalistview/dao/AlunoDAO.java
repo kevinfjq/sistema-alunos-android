@@ -67,9 +67,15 @@ public class AlunoDAO {
     public List<Aluno> listarPorNome(){
         List<Aluno> alunos = new ArrayList<>();
 
-        Cursor cursor = banco.query("aluno", new String[]{"id", "nome", "cpf",
-                        "telefone", "data_criacao"},
-                null, null, null, null, "nome ASC");
+        Cursor cursor = banco.rawQuery("SELECT id, nome, cpf, telefone, data_criacao FROM aluno ORDER BY " +
+                "CASE " +
+                "  WHEN nome COLLATE NOCASE >= 'a' AND nome COLLATE NOCASE <= 'z' THEN 1 " +
+                "  ELSE 2 " +
+                "END, " +
+                "nome COLLATE NOCASE", null);
+//                banco.query("aluno", new String[]{"id", "nome", "cpf",
+//                        "telefone", "data_criacao"},
+//                null, null, null, null, "nome ASC");
 
         while (cursor.moveToNext()) {
             Aluno a = new Aluno();
@@ -83,24 +89,6 @@ public class AlunoDAO {
         return alunos;
     }
 
-    public List<Aluno> listarPorData(){
-        List<Aluno> alunos = new ArrayList<>();
-
-        Cursor cursor = banco.query("aluno", new String[]{"id", "nome", "cpf",
-                        "telefone", "data_criacao"},
-                null, null, null, null, "data_criacao ASC");
-
-        while (cursor.moveToNext()) {
-            Aluno a = new Aluno();
-            a.setId(cursor.getInt(0));
-            a.setNome((cursor.getString(1)));
-            a.setCpf((cursor.getString(2)));
-            a.setTelefone((cursor.getString(3)));
-            alunos.add(a);
-        }
-        cursor.close();
-        return alunos;
-    }
 
     public void update(Aluno aluno) {
         ContentValues values = new ContentValues();

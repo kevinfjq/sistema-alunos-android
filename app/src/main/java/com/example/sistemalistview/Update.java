@@ -22,29 +22,39 @@ import android.widget.Toast;
 import com.example.sistemalistview.dao.AlunoDAO;
 import com.example.sistemalistview.model.Aluno;
 
+public class Update extends AppCompatActivity {
+    private int idAluno;
+    private Aluno aluno;
 
+    private EditText edtAttNome, edtAttCpf, edtAttTelefone;
+    Button btnAlterar;
 
-public class Adicionar extends AppCompatActivity {
-
-    EditText edtNome, edtCpf, edtTelefone;
-    Button btnAdicionar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_update);
 
-        Toolbar toolbar = findViewById(R.id.toolbarAdicionar);
+        Intent it = getIntent();
+        idAluno = it.getIntExtra("p_id", 0);
+        AlunoDAO dao = new AlunoDAO(this);
+        aluno = dao.read(idAluno);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbarAlterar);
         setSupportActionBar(toolbar);
 
-        edtNome = findViewById(R.id.edtNome);
-        edtCpf = findViewById(R.id.edtCpf);
-        edtTelefone = findViewById(R.id.edtTelefone);
-        btnAdicionar = findViewById(R.id.btnAdicionar);
-        btnAdicionar.setEnabled(false);
+        edtAttNome = findViewById(R.id.edtAttNome);
+        edtAttCpf = findViewById(R.id.edtAttCpf);
+        edtAttTelefone = findViewById(R.id.edtAttTelefone);
+        btnAlterar = findViewById(R.id.btnAlterar);
 
-        edtNome.addTextChangedListener(textWatcher);
-        edtCpf.addTextChangedListener(textWatcher);
-        edtTelefone.addTextChangedListener(textWatcher);
+        edtAttNome.setText(aluno.getNome());
+        edtAttCpf.setText(aluno.getCpf());
+        edtAttTelefone.setText(aluno.getTelefone());
+
+        edtAttNome.addTextChangedListener(textWatcher);
+        edtAttCpf.addTextChangedListener(textWatcher);
+        edtAttTelefone.addTextChangedListener(textWatcher);
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {
@@ -55,10 +65,10 @@ public class Adicionar extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            String text1 = edtNome.getText().toString().trim();
-            String text2 = edtCpf.getText().toString().trim();
-            String text3 = edtTelefone.getText().toString().trim();
-            btnAdicionar.setEnabled(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty());
+            String text1 = edtAttNome.getText().toString().trim();
+            String text2 = edtAttCpf.getText().toString().trim();
+            String text3 = edtAttTelefone.getText().toString().trim();
+            btnAlterar.setEnabled(!text1.isEmpty() && !text2.isEmpty() && !text3.isEmpty());
         }
 
         @Override
@@ -77,23 +87,24 @@ public class Adicionar extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.itemLimpar) {
-            edtNome.setText(null);
-            edtCpf.setText(null);
-            edtTelefone.setText(null);
+            edtAttNome.setText(null);
+            edtAttCpf.setText(null);
+            edtAttTelefone.setText(null);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void adicionarAluno(View v) {
-        Aluno aluno = new Aluno();
-        aluno.setNome(edtNome.getText().toString());
-        aluno.setCpf(edtCpf.getText().toString());
-        aluno.setTelefone(edtTelefone.getText().toString());
+    public void alterarAluno(View v) {
         AlunoDAO dao = new AlunoDAO(this);
+        Aluno novoAluno = new Aluno();
+        novoAluno.setId(aluno.getId());
+        novoAluno.setNome(edtAttNome.getText().toString());
+        novoAluno.setCpf(edtAttCpf.getText().toString());
+        novoAluno.setTelefone(edtAttTelefone.getText().toString());
         try {
-            dao.insert(aluno);
-            Toast.makeText(getApplicationContext(), "Salvo com sucesso", Toast.LENGTH_LONG).show();
-        }catch (SQLiteConstraintException e) {
+            dao.update(novoAluno);
+            Toast.makeText(getApplicationContext(), "Alterado com sucesso", Toast.LENGTH_LONG).show();
+        } catch (SQLiteConstraintException e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Erro");
             builder.setMessage("Cpf ja esta cadastrado");
@@ -104,7 +115,7 @@ public class Adicionar extends AppCompatActivity {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        }catch (Exception e) {
+        } catch (Exception e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Erro");
             builder.setMessage("Erro ao inserir aluno");
@@ -118,8 +129,7 @@ public class Adicionar extends AppCompatActivity {
         }
     }
 
-
-    public void voltar(View v) {
+    public void voltar(View v){
         Intent it = new Intent(this, MainActivity.class);
         startActivity(it);
         finish();
