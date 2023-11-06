@@ -64,6 +64,44 @@ public class AlunoDAO {
         return alunos;
     }
 
+    public List<Aluno> listarPorNome(){
+        List<Aluno> alunos = new ArrayList<>();
+
+        Cursor cursor = banco.query("aluno", new String[]{"id", "nome", "cpf",
+                        "telefone", "data_criacao"},
+                null, null, null, null, "nome ASC");
+
+        while (cursor.moveToNext()) {
+            Aluno a = new Aluno();
+            a.setId(cursor.getInt(0));
+            a.setNome((cursor.getString(1)));
+            a.setCpf((cursor.getString(2)));
+            a.setTelefone((cursor.getString(3)));
+            alunos.add(a);
+        }
+        cursor.close();
+        return alunos;
+    }
+
+    public List<Aluno> listarPorData(){
+        List<Aluno> alunos = new ArrayList<>();
+
+        Cursor cursor = banco.query("aluno", new String[]{"id", "nome", "cpf",
+                        "telefone", "data_criacao"},
+                null, null, null, null, "data_criacao ASC");
+
+        while (cursor.moveToNext()) {
+            Aluno a = new Aluno();
+            a.setId(cursor.getInt(0));
+            a.setNome((cursor.getString(1)));
+            a.setCpf((cursor.getString(2)));
+            a.setTelefone((cursor.getString(3)));
+            alunos.add(a);
+        }
+        cursor.close();
+        return alunos;
+    }
+
     public void update(Aluno aluno) {
         ContentValues values = new ContentValues();
         if (aluno.getNome().length()  >= 1){

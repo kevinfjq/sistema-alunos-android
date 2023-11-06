@@ -13,7 +13,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:title="Sistema Acadêmico"
+        app:title="Adicionar aluno"
         tools:layout_editor_absoluteX="5dp" />
 
     <LinearLayout
