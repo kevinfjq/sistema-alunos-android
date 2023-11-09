@@ -84,13 +84,17 @@ public class Adicionar extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void adicionarAluno(View v) {
+    public void adicionarAluno(View v){
         Aluno aluno = new Aluno();
-        aluno.setNome(edtNome.getText().toString());
-        aluno.setCpf(edtCpf.getText().toString());
-        aluno.setTelefone(edtTelefone.getText().toString());
-        AlunoDAO dao = new AlunoDAO(this);
         try {
+            if (!edtNome.getText().toString().matches("^[a-zA-Z]+$")){
+                throw new Exception("Nome deve ser composto apenas por caracteres");
+            }
+            aluno.setNome(edtNome.getText().toString());
+
+            aluno.setCpf(edtCpf.getText().toString());
+            aluno.setTelefone(edtTelefone.getText().toString());
+            AlunoDAO dao = new AlunoDAO(this);
             dao.insert(aluno);
             Toast.makeText(getApplicationContext(), "Salvo com sucesso", Toast.LENGTH_LONG).show();
         }catch (SQLiteConstraintException e) {
@@ -107,7 +111,7 @@ public class Adicionar extends AppCompatActivity {
         }catch (Exception e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Erro");
-            builder.setMessage("Erro ao inserir aluno");
+            builder.setMessage(e.getMessage());
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

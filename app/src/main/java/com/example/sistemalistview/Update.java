@@ -95,13 +95,16 @@ public class Update extends AppCompatActivity {
     }
 
     public void alterarAluno(View v) {
-        AlunoDAO dao = new AlunoDAO(this);
-        Aluno novoAluno = new Aluno();
-        novoAluno.setId(aluno.getId());
-        novoAluno.setNome(edtAttNome.getText().toString());
-        novoAluno.setCpf(edtAttCpf.getText().toString());
-        novoAluno.setTelefone(edtAttTelefone.getText().toString());
         try {
+            AlunoDAO dao = new AlunoDAO(this);
+            Aluno novoAluno = new Aluno();
+            if (!edtAttNome.getText().toString().matches("^[a-zA-Z]+$")) {
+                throw new Exception("Nome deve ser composto apenas por caracteres");
+            }
+            novoAluno.setId(aluno.getId());
+            novoAluno.setNome(edtAttNome.getText().toString());
+            novoAluno.setCpf(edtAttCpf.getText().toString());
+            novoAluno.setTelefone(edtAttTelefone.getText().toString());
             dao.update(novoAluno);
             Toast.makeText(getApplicationContext(), "Alterado com sucesso", Toast.LENGTH_LONG).show();
         } catch (SQLiteConstraintException e) {
@@ -115,10 +118,10 @@ public class Update extends AppCompatActivity {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-        } catch (Exception e) {
+        } catch (Exception er) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Erro");
-            builder.setMessage("Erro ao inserir aluno");
+            builder.setMessage(er.getMessage());
             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
